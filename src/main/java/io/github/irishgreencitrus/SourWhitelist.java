@@ -17,7 +17,7 @@ import java.nio.file.Path;
 
 @Plugin(id = "sourwhitelist", name = "Sour Whitelist", version = "0.1.0", authors = {"irishgreencitrus"})
 public final class SourWhitelist {
-    private SourServerState serverState;
+    private final SourServerState serverState;
     private final ProxyServer proxyServer;
     private final Logger logger;
 

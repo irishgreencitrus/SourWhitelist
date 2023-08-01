@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Optional;
 
 public final class SourWhitelistCommand implements SimpleCommand {
-    private ProxyServer server;
-    private SourServerState serverState;
+    private final ProxyServer server;
+    private final SourServerState serverState;
 
     public SourWhitelistCommand(ProxyServer server, SourServerState serverState) {
         this.server = server;

@@ -19,22 +19,26 @@ public class SourServerState {
     public SourSettings settings = new SourSettings();
     public HashMap<UUID, SourPlayer> playerInfo = new HashMap<>();
 
-    private Path dataDirectory;
-    private File playerInfoFile;
-    private File settingsFile;
+    private final Path dataDirectory;
+    private final File playerInfoFile;
+    private final File settingsFile;
 
     SourServerState(Path dataDirectory) {
         this.dataDirectory = dataDirectory;
         playerInfoFile = new File(dataDirectory.toFile(), PLAYERINFO_FILENAME);
         settingsFile = new File(dataDirectory.toFile(), SETTINGS_FILENAME);
         try {
-            if (filesExist()) {
-                infoLoadFromFile();
-                settingsLoadFromFile();
-            } else {
-                createFiles();
-                infoSaveToFile();
+            this.dataDirectory.toFile().mkdirs();
+            if (!settingsFile.exists()) {
                 settingsSaveToFile();
+            } else {
+                settingsLoadFromFile();
+            }
+            if (!playerInfoFile.exists()) {
+                infoSaveToFile();
+            }
+            else {
+                infoLoadFromFile();
             }
 
         } catch (IOException e) {
@@ -129,7 +133,7 @@ public class SourServerState {
     public void infoRegister(@NotNull Player player) {
         if (playerInfo.containsKey(player.getUniqueId())) {
             SourPlayer player1 = playerInfo.get(player.getUniqueId());
-            player1.knownIPs.add(player.getRemoteAddress());
+            player1.knownIPs.add(player.getRemoteAddress().getHostName());
             if (!Objects.equals(
                     player1.knownNames.get(player1.knownNames.size() - 1),
                     player.getUsername()))
@@ -139,7 +143,7 @@ public class SourServerState {
             player1.lastLogin = LocalDateTime.now();
         } else {
             SourPlayer player1 = new SourPlayer();
-            player1.knownIPs.add(player.getRemoteAddress());
+            player1.knownIPs.add(player.getRemoteAddress().getHostName());
             player1.knownNames.add(player.getUsername());
             player1.lastLogin = LocalDateTime.now();
 
@@ -186,25 +190,16 @@ public class SourServerState {
         reader.close();
     }
 
-    public void createFiles() throws IOException {
-        dataDirectory.toFile().mkdirs();
-        settingsFile.createNewFile();
-        playerInfoFile.createNewFile();
-    }
-    public boolean filesExist() {
-        return settingsFile.exists() && playerInfoFile.exists();
-    }
-
     private Gson getCustomGson() {
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
-        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
-        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeInstanceCreator());
-        gsonBuilder.registerTypeAdapter(InetSocketAddress.class, new InetSocketAddressDeserializer());
-        gsonBuilder.registerTypeAdapter(InetSocketAddress.class, new InetSocketAddressSerializer());
-        gsonBuilder.registerTypeAdapter(InetSocketAddress.class, new InetSocketAddressInstanceCreator());
-        gsonBuilder.setPrettyPrinting();
-        return gsonBuilder.create();
+        return
+            new GsonBuilder()
+                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer())
+                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer())
+                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeInstanceCreator())
+                .setPrettyPrinting()
+                .setLenient()
+                .serializeNulls()
+                .create();
     }
 
 }
