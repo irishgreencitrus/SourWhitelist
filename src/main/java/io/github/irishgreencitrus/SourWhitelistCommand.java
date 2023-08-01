@@ -9,16 +9,14 @@ import net.kyori.adventure.text.Component;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
 
 public final class SourWhitelistCommand implements SimpleCommand {
     private ProxyServer server;
-    private Whitelist whitelist;
+    private SourServerState serverState;
 
-    public SourWhitelistCommand(ProxyServer server, Whitelist whitelist) {
+    public SourWhitelistCommand(ProxyServer server, SourServerState serverState) {
         this.server = server;
-        this.whitelist = whitelist;
+        this.serverState = serverState;
     }
 
     @Override
@@ -31,15 +29,15 @@ public final class SourWhitelistCommand implements SimpleCommand {
             return;
         }
         switch (args[0]) {
-            case "on":
-                whitelist.enable();
+            case "on" -> {
+                serverState.whitelistEnable();
                 source.sendMessage(Component.text("SourWhitelist Enabled"));
-                break;
-            case "off":
-                whitelist.disable();
+            }
+            case "off" -> {
+                serverState.whitelistDisable();
                 source.sendMessage(Component.text("SourWhitelist Disabled"));
-                break;
-            case "add":
+            }
+            case "add" -> {
                 if (args.length == 1) {
                     source.sendMessage(Component.text("Usage: /sourwhitelist add <players...>"));
                     return;
@@ -48,15 +46,15 @@ public final class SourWhitelistCommand implements SimpleCommand {
                     final String name = args[i];
                     Optional<Player> optionalPlayer = server.getPlayer(name);
                     if (optionalPlayer.isEmpty()) {
-                        source.sendMessage(Component.text("Cannot find player '"+name+"'"));
+                        source.sendMessage(Component.text("Cannot find player '" + name + "'"));
                     } else {
                         Player player = optionalPlayer.get();
-                        whitelist.addPlayer(player);
+                        serverState.whitelistAdd(player);
+                        source.sendMessage(Component.text("Added player '" + name + "' to whitelist"));
                     }
                 }
-                break;
-
-            case "remove":
+            }
+            case "remove" -> {
                 if (args.length == 1) {
                     source.sendMessage(Component.text("Usage: /sourwhitelist remove <players...>"));
                     return;
@@ -65,35 +63,55 @@ public final class SourWhitelistCommand implements SimpleCommand {
                     final String name = args[i];
                     Optional<Player> optionalPlayer = server.getPlayer(name);
                     if (optionalPlayer.isEmpty()) {
-                        source.sendMessage(Component.text("Cannot find player '"+name+"'"));
+                        source.sendMessage(Component.text("Cannot find player '" + name + "'"));
                     } else {
                         Player player = optionalPlayer.get();
-                        whitelist.removePlayer(player);
+                        serverState.whitelistRemove(player);
                     }
                 }
-                break;
-            case "list":
+            }
+            case "list" -> {
                 source.sendMessage(Component.text("Players on SourWhitelist:"));
-                for (UUID u: whitelist.getAllowedPlayers()) {
-                    source.sendMessage(Component.text(u.toString()));
+                for (SourPlayer p : serverState.whitelistGetAllPermitted()) {
+                    source.sendMessage(Component.text(p.knownNames.get(p.knownNames.size() - 1)));
                 }
-                break;
-            case "load":
-                whitelist.loadWhitelist();
-                source.sendMessage(Component.text("Reloaded 'whitelist.txt'"));
-                break;
-            case "save":
+            }
+            case "load" -> {
                 try {
-                    whitelist.saveWhitelist();
+                    serverState.infoLoadFromFile();
+                    serverState.settingsLoadFromFile();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-                source.sendMessage(Component.text("Reloaded 'whitelist.txt'"));
-                break;
-            default:
+                source.sendMessage(Component.text("Loaded 'whitelist.txt'"));
+            }
+            case "save" -> {
+                try {
+                    serverState.infoSaveToFile();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                source.sendMessage(Component.text("Saved 'whitelist.txt'"));
+            }
+            case "help" -> {
+                source.sendMessage(
+                    Component.text("""
+                        SourWhitelist help.
+                        \ton\tTurn on the whitelist
+                        \toff\tTurn off the whitelist
+                        \tadd <player>\tAdd a player to the whitelist
+                        \tremove <player>\tRemove a player from the whitelist
+                        \tlist\tList all players on the whitelist
+                        \tload\tLoad the whitelist from whitelist.txt
+                        \tsave\tSave the current whitelist to whitelist.txt
+                        \thelp\tPrint this message"""
+                    )
+                );
+            }
+            default -> {
                 source.sendMessage(Component.text("Subcommand is incorrect or incomplete"));
                 source.sendMessage(Component.text("Usage: /sourwhitelist <subcommand> [args...]"));
-                break;
+            }
         }
     }
 

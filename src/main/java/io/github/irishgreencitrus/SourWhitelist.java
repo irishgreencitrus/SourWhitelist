@@ -1,7 +1,6 @@
 package io.github.irishgreencitrus;
 
 import com.google.inject.Inject;
-import com.velocitypowered.api.command.BrigadierCommand;
 import com.velocitypowered.api.command.CommandManager;
 import com.velocitypowered.api.command.CommandMeta;
 import com.velocitypowered.api.command.SimpleCommand;
@@ -18,7 +17,7 @@ import java.nio.file.Path;
 
 @Plugin(id = "sourwhitelist", name = "Sour Whitelist", version = "0.1.0", authors = {"irishgreencitrus"})
 public final class SourWhitelist {
-    private Whitelist whitelist;
+    private SourServerState serverState;
     private final ProxyServer proxyServer;
     private final Logger logger;
 
@@ -26,24 +25,26 @@ public final class SourWhitelist {
     public SourWhitelist(ProxyServer proxyServer, Logger logger, @DataDirectory Path dataDirectory) {
         this.proxyServer = proxyServer;
         this.logger = logger;
-        this.whitelist = new Whitelist(dataDirectory);
+        this.serverState = new SourServerState(dataDirectory);
+
     }
 
     @Subscribe
     public void onProxyInit(ProxyInitializeEvent event) {
-        proxyServer.getEventManager().register(this, new WhitelistListener(this.logger, this.whitelist));
-        CommandManager commandManager = proxyServer.getCommandManager();;
+        proxyServer.getEventManager().register(this, new SourListener(this.logger, this.serverState));
+        CommandManager commandManager = proxyServer.getCommandManager();
         CommandMeta commandMeta = commandManager.metaBuilder("sourwhitelist")
                 .aliases("swhitelist", "slist")
                 .plugin(this).build();
-        SimpleCommand command = new SourWhitelistCommand(this.proxyServer,this.whitelist);
+        SimpleCommand command = new SourWhitelistCommand(this.proxyServer,this.serverState);
         commandManager.register(commandMeta, command);
 
     }
     @Subscribe
     public void onProxyClose(ProxyShutdownEvent event) {
         try {
-            whitelist.saveWhitelist();
+            serverState.infoSaveToFile();
+            serverState.settingsSaveToFile();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

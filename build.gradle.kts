@@ -17,6 +17,7 @@ val velocityVersion = "3.2.0-SNAPSHOT"
 dependencies {
     compileOnly("com.velocitypowered:velocity-api:$velocityVersion")
     annotationProcessor("com.velocitypowered:velocity-api:$velocityVersion")
+    implementation("com.moandjiezana.toml:toml4j:0.7.2")
 }
 
 tasks.test {
