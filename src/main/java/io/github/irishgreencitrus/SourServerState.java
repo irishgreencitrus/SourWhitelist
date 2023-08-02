@@ -134,9 +134,7 @@ public class SourServerState {
         if (playerInfo.containsKey(player.getUniqueId())) {
             SourPlayer player1 = playerInfo.get(player.getUniqueId());
             player1.knownIPs.add(player.getRemoteAddress().getHostName());
-            if (!Objects.equals(
-                    player1.knownNames.get(player1.knownNames.size() - 1),
-                    player.getUsername()))
+            if (!player1.knownNames.contains(player.getUsername()))
             {
                 player1.knownNames.add(player.getUsername());
             }
