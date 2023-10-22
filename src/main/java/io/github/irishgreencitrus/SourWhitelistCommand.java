@@ -73,7 +73,11 @@ public final class SourWhitelistCommand implements SimpleCommand {
             case "list" -> {
                 source.sendMessage(Component.text("Players on SourWhitelist:"));
                 for (SourPlayer p : serverState.whitelistGetAllPermitted()) {
-                    source.sendMessage(Component.text(p.knownNames.get(p.knownNames.size() - 1)));
+                    if (p.knownNames.size() != 0) {
+                        source.sendMessage(Component.text(p.knownNames.get(p.knownNames.size() - 1)));
+                    } else {
+                        source.sendMessage(Component.text("No name for: " + p.uuid));
+                    }
                 }
             }
             case "load" -> {
@@ -83,7 +87,7 @@ public final class SourWhitelistCommand implements SimpleCommand {
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-                source.sendMessage(Component.text("Loaded 'whitelist.txt'"));
+                source.sendMessage(Component.text("Loaded whitelist and info"));
             }
             case "save" -> {
                 try {
@@ -91,7 +95,7 @@ public final class SourWhitelistCommand implements SimpleCommand {
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-                source.sendMessage(Component.text("Saved 'whitelist.txt'"));
+                source.sendMessage(Component.text("Saved whitelist and info"));
             }
             case "help" -> {
                 source.sendMessage(
@@ -119,7 +123,7 @@ public final class SourWhitelistCommand implements SimpleCommand {
     public List<String> suggest(Invocation invocation) {
         String[] currentArgs = invocation.arguments();
         if (currentArgs.length == 1) {
-            return List.of("on", "off", "add", "remove", "list", "load","save");
+            return List.of("on", "off", "add", "remove", "help", "list", "load","save");
         } else {
             return List.of();
         }

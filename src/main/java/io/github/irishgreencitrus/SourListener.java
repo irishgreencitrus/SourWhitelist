@@ -7,6 +7,11 @@ import com.velocitypowered.api.event.connection.LoginEvent;
 import net.kyori.adventure.text.Component;
 import org.slf4j.Logger;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Objects;
+
 public final class SourListener {
     private final SourServerState serverState;
     private final Logger logger;
@@ -21,6 +26,10 @@ public final class SourListener {
         if (!serverState.whitelistHas(event.getPlayer())) {
             event.getPlayer().disconnect(Component.text(serverState.settings.whitelistDisallowMessage));
         }
+        if (serverState.getPlayer(event.getPlayer()).orElseThrow().banned) {
+            event.getPlayer().disconnect(Component.text(serverState.settings.bannedMessage));
+        }
+        //if (serverState.getPlayer(event.getPlayer()).orElseThrow().timedOutUntil.isBefore(LocalDateTime.now())) {}
     }
     @Subscribe(order = PostOrder.EARLY)
     public void onPlayerDisconnect(DisconnectEvent event) {

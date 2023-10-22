@@ -7,11 +7,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cc8e4181-2164-4563-916f-dd583e10b5f8" name="Changes" comment="SourWhitelist re-architecting">
+    <list default="true" id="cc8e4181-2164-4563-916f-dd583e10b5f8" name="Changes" comment="Update gitignore">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/irishgreencitrus/SourListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/irishgreencitrus/SourListener.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/io/github/irishgreencitrus/SourPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/irishgreencitrus/SourPlayer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/io/github/irishgreencitrus/SourServerState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/irishgreencitrus/SourServerState.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/irishgreencitrus/SourWhitelist.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/irishgreencitrus/SourWhitelist.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/irishgreencitrus/SourSettings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/irishgreencitrus/SourSettings.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/io/github/irishgreencitrus/SourWhitelistCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/irishgreencitrus/SourWhitelistCommand.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -71,21 +72,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "last.edited.regexp": "",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last.edited.regexp&quot;: &quot;&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="io.github.irishgreencitrus" />
@@ -148,11 +149,38 @@
       <option name="project" value="LOCAL" />
       <updated>1690912896335</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Make JSON saving more robust">
+      <option name="closed" value="true" />
+      <created>1690924524867</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1690924524867</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Save on player disconnect and fix bug in player info">
+      <option name="closed" value="true" />
+      <created>1690970041954</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1690970041954</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Update gitignore">
+      <option name="closed" value="true" />
+      <created>1690970123342</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1690970123342</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="SourWhitelist re-architecting" />
-    <option name="LAST_COMMIT_MESSAGE" value="SourWhitelist re-architecting" />
+    <MESSAGE value="Make JSON saving more robust" />
+    <MESSAGE value="Save on player disconnect and fix bug in player info" />
+    <MESSAGE value="Update gitignore" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update gitignore" />
   </component>
 </project>
