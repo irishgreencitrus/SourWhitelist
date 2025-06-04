@@ -1,25 +1,19 @@
 package io.github.irishgreencitrus;
 
-import com.velocitypowered.api.event.PostOrder;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.DisconnectEvent;
 import com.velocitypowered.api.event.connection.LoginEvent;
 import net.kyori.adventure.text.Component;
 import org.slf4j.Logger;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Objects;
-
 public final class SourListener {
     private final SourServerState serverState;
-    private final Logger logger;
+
     SourListener(Logger logger, SourServerState serverState) {
-        this.logger = logger;
         this.serverState = serverState;
     }
-    @Subscribe(order = PostOrder.EARLY)
+
+    @Subscribe
     public void onPlayerLogin(LoginEvent event) {
         serverState.infoRegister(event.getPlayer());
         if (!serverState.whitelistIsEnabled()) return;
@@ -29,9 +23,9 @@ public final class SourListener {
         if (serverState.getPlayer(event.getPlayer()).orElseThrow().banned) {
             event.getPlayer().disconnect(Component.text(serverState.settings.bannedMessage));
         }
-        //if (serverState.getPlayer(event.getPlayer()).orElseThrow().timedOutUntil.isBefore(LocalDateTime.now())) {}
     }
-    @Subscribe(order = PostOrder.EARLY)
+
+    @Subscribe
     public void onPlayerDisconnect(DisconnectEvent event) {
         try {
             serverState.settingsSaveToFile();

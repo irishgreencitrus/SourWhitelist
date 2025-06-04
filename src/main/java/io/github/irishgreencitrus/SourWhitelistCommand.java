@@ -73,7 +73,7 @@ public final class SourWhitelistCommand implements SimpleCommand {
             case "list" -> {
                 source.sendMessage(Component.text("Players on SourWhitelist:"));
                 for (SourPlayer p : serverState.whitelistGetAllPermitted()) {
-                    if (p.knownNames.size() != 0) {
+                    if (!p.knownNames.isEmpty()) {
                         source.sendMessage(Component.text(p.knownNames.get(p.knownNames.size() - 1)));
                     } else {
                         source.sendMessage(Component.text("No name for: " + p.uuid));
@@ -97,21 +97,19 @@ public final class SourWhitelistCommand implements SimpleCommand {
                 }
                 source.sendMessage(Component.text("Saved whitelist and info"));
             }
-            case "help" -> {
-                source.sendMessage(
-                    Component.text("""
-                        SourWhitelist help.
-                        \ton\tTurn on the whitelist
-                        \toff\tTurn off the whitelist
-                        \tadd <player>\tAdd a player to the whitelist
-                        \tremove <player>\tRemove a player from the whitelist
-                        \tlist\tList all players on the whitelist
-                        \tload\tLoad the whitelist from whitelist.txt
-                        \tsave\tSave the current whitelist to whitelist.txt
-                        \thelp\tPrint this message"""
-                    )
-                );
-            }
+            case "help" -> source.sendMessage(
+                Component.text("""
+                    SourWhitelist help.
+                    \ton\tTurn on the whitelist
+                    \toff\tTurn off the whitelist
+                    \tadd <player>\tAdd a player to the whitelist
+                    \tremove <player>\tRemove a player from the whitelist
+                    \tlist\tList all players on the whitelist
+                    \tload\tLoad the whitelist from whitelist.txt
+                    \tsave\tSave the current whitelist to whitelist.txt
+                    \thelp\tPrint this message"""
+                )
+            );
             default -> {
                 source.sendMessage(Component.text("Subcommand is incorrect or incomplete"));
                 source.sendMessage(Component.text("Usage: /sourwhitelist <subcommand> [args...]"));

@@ -13,7 +13,7 @@ repositories {
     }
 }
 
-val velocityVersion = "3.2.0-SNAPSHOT"
+val velocityVersion = "3.4.0-SNAPSHOT"
 dependencies {
     compileOnly("com.velocitypowered:velocity-api:$velocityVersion")
     annotationProcessor("com.velocitypowered:velocity-api:$velocityVersion")
@@ -22,4 +22,9 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
